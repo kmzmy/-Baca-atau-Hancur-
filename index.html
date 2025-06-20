@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Ambisi Terbakar: Baca atau Hancur!</title>
+    <style>
+        /* --- GAYA ASLI ANDA SEPENUHNYA DIKEMBALIKAN --- */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --dark-bg: #111111;
+            --dark-secondary: #1a1a1a;
+            --gold: #d4af37;
+            --gold-highlight: #ffd700;
+            --dark-red: #8b0000;
+            --text-white: #ffffff;
+            --text-light: #f0f0f0;
+            --text-gray: #aaaaaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .page {
+            min-height: 100vh;
+            width: 100%;
+            padding: 2rem;
+            display: none;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .page.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cover Page */
+        .cover {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: 1;
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .book-icon {
+            margin-bottom: 2rem;
+        }
+
+        .book-icon svg {
+            width: 80px;
+            height: 80px;
+            fill: var(--gold);
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            background: linear-gradient(to right, var(--dark-red), var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--gold);
+        }
+
+        .subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--text-light);
+            margin-top: 2rem;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .burning-effect {
+            position: relative;
+            display: inline-block;
+        }
+
+        .burning-effect::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, var(--gold-highlight), transparent);
+            animation: burn 3s infinite;
+        }
+
+        @keyframes burn {
+            0% {
+                transform: scaleX(0.3);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: scaleX(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scaleX(0.3);
+                opacity: 0.3;
+            }
+        }
+
+        /* Introduction Page */
+        .intro {
+            background-color: var(--dark-secondary);
+            padding: 3rem 2rem;
+        }
+
+        .intro-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .intro-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--gold);
+        }
+
+        .intro-text {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .intro-highlight {
+            font-weight: 600;
+            color: var(--gold-highlight);
+        }
+
+        /* Table of Contents */
+        .toc {
+            background-color: var(--dark-bg);
+            padding: 3rem 2rem;
+        }
+
+        .toc-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .toc-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--gold);
+            text-align: center;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-left: 3px solid var(--dark-red);
+            background-color: rgba(26, 26, 26, 0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .toc-item:hover {
+            border-left-color: var(--gold);
+            background-color: rgba(26, 26, 26, 0.8);
+            transform: translateX(5px);
+        }
+
+        .toc-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-right: 1rem;
+        }
+
+        .toc-chapter {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        /* Chapter Pages */
+        .chapter {
+            background-color: var(--dark-secondary);
+            padding: 3rem 2rem;
+        }
+
+        .chapter-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .chapter-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 1rem;
+        }
+
+        .chapter-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-white);
+        }
+
+        .chapter-text {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .highlight-block {
+            background-color: rgba(139, 0, 0, 0.2);
+            border-left: 4px solid var(--dark-red);
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .highlight-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--gold);
+        }
+
+        .bullet-points {
+            margin: 1.5rem 0 1.5rem 1.5rem;
+        }
+
+        .bullet-points li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .bullet-points li::before {
+            content: '•';
+            color: var(--gold);
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -0.2rem;
+        }
+
+        /* Conclusion Page */
+        .conclusion {
+            background-color: var(--dark-bg);
+            padding: 3rem 2rem;
+        }
+
+        .conclusion-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .conclusion-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--gold);
+        }
+
+        .conclusion-text {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .nav-btn {
+            background-color: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            padding: 0.8rem 1.5rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--gold);
+            color: var(--dark-bg);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Tombol TOC mengambang */
+        .floating-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            background-color: var(--gold);
+            border: none;
+        }
+        
+        .floating-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--dark-bg);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--gold);
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .intro-title,
+            .toc-title,
+            .chapter-title,
+            .conclusion-title {
+                font-size: 2rem;
+            }
+
+            .intro-text,
+            .conclusion-text {
+                font-size: 1.1rem;
+            }
+
+            .chapter-text {
+                font-size: 1rem;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+
+            .nav-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <button class="nav-btn floating-btn" id="tocBtn" title="Daftar Isi" style="display: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+    </button>
+
+    <div class="container">
+        <!-- Cover Page -->
+        <div class="page cover active" id="cover">
+            <div class="cover-content">
+                <div class="book-icon">
+                    <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21,4H3A2,2,0,0,0,1,6V19a2,2,0,0,0,2,2H21a2,2,0,0,0,2-2V6A2,2,0,0,0,21,4ZM3,6H11V19H3Zm18,13H13V6h8Z"></path>
+                        <path d="M5,10h4a1,1,0,0,0,0-2H5a1,1,0,0,0,0,2Z"></path>
+                        <path d="M5,14h4a1,1,0,0,0,0-2H5a1,1,0,0,0,0,2Z"></path>
+                    </svg>
+                </div>
+                <h1 class="title"><span class="burning-effect">AMBISI TERBAKAR:</span><br />BACA ATAU HANCUR!</h1>
+                <p class="subtitle">Baca aja malas, apalagi berpikir buat maju! Dua baris ini bakal mengubah lo jadi paling ambisius—selalu cari cara sukses lewat baca!</p>
+                <div class="nav-buttons">
+                    <button class="nav-btn" data-target="intro">Mulai Membaca</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Introduction Page -->
+        <div class="page intro" id="intro">
+            <div class="intro-content">
+                <h2 class="intro-title">Pengantar</h2>
+                <p class="intro-text"><span class="intro-highlight">Kalau lo aja malas baca, lo udah kalah bahkan sebelum hidup lo mulai.</span> Ini bukan tentang buku, ini tentang harga diri lo.</p>
+                <p class="intro-text">Setiap halaman yang lo lewatkan adalah bukti bahwa lo memilih jadi pecundang. Orang sukses di luar sana sedang melahap buku demi buku, sementara lo? Masih nyari alasan kenapa males baca.</p>
+                <p class="intro-text">eBook ini bukan motivasi murahan. Ini tamparan keras yang lo butuhkan. Setiap bab dirancang untuk menghancurkan zona nyaman lo dan membangun ambisi yang terbakar dalam diri lo.</p>
+                <p class="intro-text"><span class="intro-highlight">Baca atau hancur.</span> Pilihan ada di tangan lo. Tapi ingat, dunia tidak menunggu orang yang malas berpikir.</p>
+                <div class="nav-buttons">
+                    <button class="nav-btn" data-target="cover">Kembali</button>
+                    <button class="nav-btn" data-target="toc">Lanjut</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="page toc" id="toc">
+            <div class="toc-content">
+                <h2 class="toc-title">Daftar Isi</h2>
+                <ul class="toc-list">
+                    <li class="toc-item" data-target="chapter1"><span class="toc-number">01</span><span class="toc-chapter">Malas Tapi Banyak Mau</span></li>
+                    <li class="toc-item" data-target="chapter2"><span class="toc-number">02</span><span class="toc-chapter">Penyakit Mental: Suka Tunda, Suka Scroll</span></li>
+                    <li class="toc-item" data-target="chapter3"><span class="toc-number">03</span><span class="toc-chapter">Ilusi Produktif Tapi Kosong</span></li>
+                    <li class="toc-item" data-target="chapter4"><span class="toc-number">04</span><span class="toc-chapter">Hidup Tanpa Tujuan Itu Mahal</span></li>
+                    <li class="toc-item" data-target="chapter5"><span class="toc-number">05</span><span class="toc-chapter">Otak Lo Butuh Rasa Sakit</span></li>
+                    <li class="toc-item" data-target="chapter6"><span class="toc-number">06</span><span class="toc-chapter">Dihina Itu Obat Ambisi</span></li>
+                    <li class="toc-item" data-target="chapter7"><span class="toc-number">07</span><span class="toc-chapter">Males Baca = Males Hidup</span></li>
+                    <li class="toc-item" data-target="chapter8"><span class="toc-number">08</span><span class="toc-chapter">Satu Hal yang Ngubah Hidup Orang Biasa</span></li>
+                    <li class="toc-item" data-target="chapter9"><span class="toc-number">09</span><span class="toc-chapter">Obsesi Gila-Gilaan Itu Sehat</span></li>
+                    <li class="toc-item" data-target="chapter10"><span class="toc-number">10</span><span class="toc-chapter">Lo Butuh Pukulan, Bukan Motivasi</span></li>
+                    <li class="toc-item" data-target="chapter11"><span class="toc-number">11</span><span class="toc-chapter">Kenapa Lo Gak Pernah Fokus</span></li>
+                    <li class="toc-item" data-target="chapter12"><span class="toc-number">12</span><span class="toc-chapter">Ngatur Waktu Buat Orang Malas</span></li>
+                    <li class="toc-item" data-target="chapter13"><span class="toc-number">13</span><span class="toc-chapter">Otak Lo Butuh Konten yang Nendang</span></li>
+                    <li class="toc-item" data-target="chapter14"><span class="toc-number">14</span><span class="toc-chapter">Baca Buku = Gali Kubur Kegagalan</span></li>
+                    <li class="toc-item" data-target="chapter15"><span class="toc-number">15</span><span class="toc-chapter">Upgrade Diri atau Ditinggal Mati</span></li>
+                    <li class="toc-item" data-target="conclusion"><span class="toc-number">★</span><span class="toc-chapter">Penutup: Api Sudah Menyala</span></li>
+                </ul>
+                <div class="nav-buttons">
+                    <button class="nav-btn" data-target="intro">Kembali</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chapter 1 (Konten panjang asli) -->
+        <div class="page chapter" id="chapter1">
+            <div class="chapter-content">
+                <div class="chapter-header"><div class="chapter-number">BAB 01</div><h2 class="chapter-title">Malas Tapi Banyak Mau</h2></div>
+                <p class="chapter-text">Lo pernah nggak, bangun pagi dengan segudang mimpi tapi berakhir scroll TikTok sampai sore? Atau mungkin lo punya list panjang keinginan—mobil mewah, rumah gede, traveling keliling dunia—tapi untuk baca buku 30 menit aja rasanya berat banget. Ini bukan cuma tentang lo. Ini fenomena massal yang terjadi di mana-mana.</p>
+                <p class="chapter-text">Gue pernah ketemu seorang mahasiswa yang ngeluh kuliahnya susah, tapi tiap hari main game 8 jam. Dia pengen jadi pengusaha sukses, tapi baca buku bisnis aja males. Dia bilang, "Gue pengen sukses instan aja, gak usah ribet-ribet." Tiga tahun kemudian, dia masih di posisi yang sama, bahkan lebih terpuruk karena temen-temennya udah pada maju.</p>
+                <div class="highlight-block"><div class="highlight-title">Realita Pahit</div><p>Otak lo secara alami dirancang untuk mencari jalan termudah. Ini mekanisme survival primitif. Tapi di era modern, ini jadi kutukan. Lo jadi makhluk yang malas tapi berharap hasil maksimal. Ini paradoks yang bikin lo terus gagal.</p></div>
+                <p class="chapter-text">Coba perhatikan orang-orang sukses di sekitar lo. Mereka bukan orang yang paling pintar, tapi mereka yang paling rajin baca dan eksekusi. Jeff Bezos, sebelum Amazon jadi raksasa, dia baca ratusan buku tentang retail dan bisnis. Jack Ma, yang bahasa Inggrisnya dulu payah, rela ngomong sama turis berjam-jam untuk belajar, sementara temen-temennya cuma ngetawain.</p>
+                <p class="chapter-text">Sementara lo? Baca caption Instagram aja males sampai habis. Lo pengen sukses tapi nggak mau bayar harganya. Lo mau hasil tapi nggak mau proses. Ini bukan cuma malas, ini penghinaan terhadap potensi lo sendiri.</p>
+                <ul class="bullet-points">
+                    <li>Setiap kali lo pilih scroll daripada baca, lo memilih jadi mediocre</li>
+                    <li>Setiap "nanti aja" adalah pengkhianatan terhadap diri lo sendiri</li>
+                    <li>Orang yang malas baca adalah orang yang takut sama kebenaran tentang dirinya</li>
+                    <li>Lo nggak punya hak untuk bermimpi besar kalau usaha lo kecil</li>
+                </ul>
+                <p class="chapter-text">Ada seorang CEO startup yang gue kenal. Dia bangun perusahaan dari nol sampai valuasi triliunan. Tau kebiasaan dia? Baca minimal 2 jam setiap hari, sejak 10 tahun lalu, tanpa pernah absen. Saat ditanya kenapa, dia jawab simpel: "Orang yang nggak mau baca adalah orang yang sudah menyerah sebelum bertanding."</p>
+                <div class="highlight-block"><div class="highlight-title">Solusi Radikal</div><p>Mulai sekarang, setiap kali lo merasa malas baca, tanya ke diri lo sendiri: "Apakah gue pantas dapat apa yang gue mau dengan usaha sekecil ini?" Tulis mimpi-mimpi lo di kertas, tempel di dinding, dan di bawahnya tulis: "Mustahil dicapai tanpa membaca."</p></div>
+                <p class="chapter-text">Lo harus paham: dunia ini nggak peduli sama keinginan lo. Dunia cuma peduli sama apa yang lo lakukan. Dan kalau lo nggak mau baca—aktivitas paling dasar untuk berkembang—gimana lo mau melakukan hal-hal besar?</p>
+                <p class="chapter-text">Jadi, pilih: tetap jadi orang malas dengan sejuta keinginan, atau mulai baca dan eksekusi untuk jadi orang yang pantas mendapatkan apa yang lo mau. Karena malas tapi banyak mau itu bukan ambisi. Itu delusi.</p>
+                <div class="nav-buttons"><button class="nav-btn" data-target="toc">Daftar Isi</button><button class="nav-btn" data-target="chapter2">Bab Selanjutnya</button></div>
+            </div>
+        </div>
+
+        <!-- Chapter 2 (Konten panjang asli) -->
+        <div class="page chapter" id="chapter2">
+            <div class="chapter-content">
+                <div class="chapter-header"><div class="chapter-number">BAB 02</div><h2 class="chapter-title">Penyakit Mental: Suka Tunda, Suka Scroll</h2></div>
+                <p class="chapter-text">Lo tau nggak, rata-rata orang Indonesia ngabisin 5 jam sehari buat scroll media sosial? Itu 35 jam seminggu. Hampir sama dengan jam kerja full-time. Bayangkan kalau waktu itu lo pake buat baca buku. Dalam setahun, lo bisa baca 200 buku. Dalam 5 tahun, lo bisa jadi ahli di bidang apapun.</p>
+                <p class="chapter-text">Tapi kenyataannya, lo lebih milih scroll tanpa tujuan. Liat konten yang sama berulang-ulang. Nonton orang lain sukses sementara lo cuma jadi penonton. Ini bukan cuma buang-buang waktu, ini penyakit mental yang nyata.</p>
+                <div class="highlight-block"><div class="highlight-title">Kasus Nyata</div><p>Andi, 27 tahun, lulusan S1 ekonomi. Dia punya mimpi jadi investor saham sukses. Tiap hari dia nonton video trading, ikut grup telegram sinyal saham, tapi untuk baca satu buku tentang fundamental analisis aja dia nggak sanggup. Hasilnya? Tiga tahun trading, portfolionya minus 70%. Sementara temannya yang rajin baca dan analisis, portfolionya naik 300%.</p></div>
+                <p class="chapter-text">Penundaan itu seperti kartu kredit mental. Lo nikmati kesenangan sekarang (scroll, nonton, main game), tapi lo bakal bayar dengan bunga yang jauh lebih besar di masa depan: karir mandek, potensi terbuang, dan penyesalan yang nggak ada habisnya.</p>
+                <p class="chapter-text">Otak lo secara biologis dirancang untuk mencari dopamin—hormon kesenangan instan. Media sosial, game, dan hiburan pasif memberikan dopamin dengan mudah. Membaca, di sisi lain, butuh usaha dulu sebelum otak merasakan reward. Inilah kenapa lo terus memilih aktivitas yang merusak masa depan lo.</p>
+                <ul class="bullet-points">
+                    <li>Setiap "5 menit lagi" adalah kebohongan yang lo ceritakan ke diri sendiri</li>
+                    <li>Scroll tanpa tujuan adalah bentuk pelarian dari tanggung jawab</li>
+                    <li>Menunda baca = menunda kesuksesan</li>
+                    <li>Kebiasaan scroll kompulsif adalah kecanduan yang sama bahayanya dengan narkoba</li>
+                </ul>
+                <p class="chapter-text">Gue pernah ketemu seorang eksekutif muda yang sukses di usia 30. Dia punya kebiasaan yang aneh: ponselnya selalu dalam mode grayscale (hitam-putih). Ketika ditanya kenapa, dia jawab: "Warna-warni di sosmed dan game dirancang untuk menjebak otak kita. Dengan layar hitam-putih, godaan berkurang 80% dan fokus gue meningkat drastis."</p>
+                <div class="highlight-block"><div class="highlight-title">Solusi Radikal</div><p>Mulai hari ini: Pasang screen time limit di HP lo. Maksimal 1 jam untuk sosmed. Ubah layar jadi grayscale. Letakkan buku di samping tempat tidur, gantikan HP. Dan yang paling penting: akui bahwa lo punya masalah. Kecanduan scroll dan suka tunda bukan cuma kebiasaan buruk, tapi penyakit mental yang perlu lo obati sekarang juga.</p></div>
+                <p class="chapter-text">Seorang psikolog terkenal pernah bilang: "Cara termudah untuk memprediksi masa depan seseorang adalah dengan melihat apa yang dia lakukan di 5 menit pertama setelah bangun tidur dan 5 menit terakhir sebelum tidur." Kalau jawabannya adalah scroll, masa depan lo sudah bisa ditebak.</p>
+                <p class="chapter-text">Jadi, apa yang lo pilih? Terus jadi budak dopamin murahan dari scroll dan penundaan, atau mulai bangun disiplin membaca yang akan mengubah seluruh arah hidup lo? Ingat, setiap scroll adalah pilihan untuk tetap jadi orang biasa-biasa aja.</p>
+                <div class="nav-buttons"><button class="nav-btn" data-target="chapter1">Bab Sebelumnya</button><button class="nav-btn" data-target="chapter3">Bab Selanjutnya</button></div>
+            </div>
+        </div>
+
+        <!-- Chapter 3 (Konten panjang asli) -->
+        <div class="page chapter" id="chapter3">
+            <div class="chapter-content">
+                <div class="chapter-header"><div class="chapter-number">BAB 03</div><h2 class="chapter-title">Ilusi Produktif Tapi Kosong</h2></div>
+                <p class="chapter-text">Lo pernah nggak merasa sibuk seharian tapi pas malam datang, lo nggak bisa jawab apa yang udah lo capai? Lo buka laptop, reply email, ikut meeting, bikin to-do list, tapi somehow nggak ada progress nyata? Ini yang disebut "busy but not productive"—sibuk tapi kosong.</p>
+                <p class="chapter-text">Banyak orang terjebak dalam ilusi produktivitas. Mereka merasa sibuk, lelah, dan overwhelmed, tapi sebenarnya cuma berputar-putar di tempat yang sama. Kenapa? Karena mereka sibuk dengan hal-hal yang nggak punya impact jangka panjang.</p>
+                <div class="highlight-block"><div class="highlight-title">Kasus Nyata</div><p>Rudi adalah manajer di perusahaan teknologi. Setiap hari dia handle puluhan email, ikut 5-6 meeting, dan selalu lembur. Tapi setelah 3 tahun, posisinya tetap sama, gajinya naik minimal, dan skillnya mandek. Sementara itu, koleganya Budi yang selalu pulang tepat waktu tapi rutin baca buku dan ambil online course, sudah dipromosikan dua kali dan gajinya naik 300%.</p></div>
+                <p class="chapter-text">Masalahnya bukan lo kurang sibuk. Masalahnya adalah lo sibuk dengan hal yang salah. Membaca buku mungkin terlihat "tidak produktif" karena lo nggak langsung lihat hasilnya. Tapi justru aktivitas yang terlihat lambat inilah yang memberikan compound effect terbesar di masa depan.</p>
+                <p class="chapter-text">Warren Buffett, salah satu investor terkaya dunia, menghabiskan 80% waktunya untuk membaca dan berpikir. Dia bilang, "Itulah yang membedakan saya dengan orang lain." Sementara kebanyakan orang sibuk dengan aktivitas yang terlihat produktif tapi sebenarnya cuma noise.</p>
+                <ul class="bullet-points">
+                    <li>Meeting tanpa tujuan jelas adalah pemborosan waktu terselubung</li>
+                    <li>Multitasking adalah ilusi efisiensi yang sebenarnya menurunkan produktivitas 40%</li>
+                    <li>Sibuk ≠ Produktif. Produktif = Menghasilkan output yang bermakna</li>
+                    <li>Membaca buku adalah investasi yang tidak terlihat tapi memberikan return terbesar</li>
+                </ul>
+                <p class="chapter-text">Ada CEO startup yang punya kebiasaan aneh: setiap hari Jumat, dia "menghilang" dari kantor. Nggak ada meeting, nggak ada email, nggak ada panggilan. Apa yang dia lakukan? Dia pergi ke kafe, baca buku, dan memikirkan strategi jangka panjang. Hasilnya? Perusahaannya tumbuh 400% dalam 2 tahun, sementara kompetitor yang sibuk dengan "day-to-day operations" bangkrut satu per satu.</p>
+                <div class="highlight-block"><div class="highlight-title">Solusi Radikal</div><p>Mulai sekarang: Blok minimal 1 jam sehari untuk "deep work"—membaca, belajar, atau mengerjakan proyek yang benar-benar menggerakkan hidup lo ke depan. Matikan semua notifikasi. Evaluasi setiap aktivitas dengan pertanyaan: "Apakah ini membawa gue lebih dekat ke tujuan jangka panjang, atau cuma membuat gue merasa sibuk?"</p></div>
+                <p class="chapter-text">Bill Gates rutin melakukan "Think Week"—seminggu penuh dia mengisolasi diri, membaca buku dan paper, dan memikirkan masa depan Microsoft. Banyak inovasi terbesar Microsoft lahir dari kebiasaan ini. Sementara eksekutif lain sibuk dengan meeting tanpa akhir, Gates menciptakan masa depan.</p>
+                <p class="chapter-text">Jadi, lo mau terus terjebak dalam ilusi produktif yang kosong, atau mulai fokus pada aktivitas yang benar-benar mengubah trajectory hidup lo? Ingat: bukan seberapa sibuk lo yang menentukan kesuksesan, tapi seberapa bermakna aktivitas yang lo lakukan.</p>
+                <div class="nav-buttons"><button class="nav-btn" data-target="chapter2">Bab Sebelumnya</button><button class="nav-btn" data-target="chapter4">Bab Selanjutnya</button></div>
+            </div>
+        </div>
+        
+        <!-- Chapter 4 (Konten panjang asli) -->
+        <div class="page chapter" id="chapter4">
+            <div class="chapter-content">
+                <div class="chapter-header"><div class="chapter-number">BAB 04</div><h2 class="chapter-title">Hidup Tanpa Tujuan Itu Mahal</h2></div>
+                <p class="chapter-text">Lo tau apa yang lebih mahal dari pendidikan? Kebodohan. Dan lo tau apa yang lebih mahal dari punya tujuan hidup? Hidup tanpa tujuan. Karena ketika lo nggak punya tujuan yang jelas, lo akan menghabiskan waktu, energi, dan uang untuk hal-hal yang nggak penting.</p>
+                <p class="chapter-text">Kebanyakan orang bangun pagi tanpa tau mau ngapain hari ini selain rutinitas yang sama. Mereka biarkan hari-hari berlalu tanpa arah, dan tiba-tiba 10 tahun lewat begitu aja. Mereka masih di posisi yang sama, dengan skill yang sama, dengan income yang hampir sama. Ini bukan cuma menyedihkan, ini pemborosan hidup yang luar biasa.</p>
+                <div class="highlight-block"><div class="highlight-title">Kasus Nyata</div><p>Dua orang lulus dari universitas yang sama dengan IPK yang sama. Yang pertama, Anto, langsung kerja di perusahaan dengan gaji standar. Dia jalani hari-hari tanpa rencana jangka panjang. Yang kedua, Bimo, punya target jelas: dalam 10 tahun dia mau punya perusahaan sendiri. Setiap buku yang dia baca, setiap kursus yang dia ambil, setiap pekerjaan yang dia pilih, semuanya mengarah ke sana. Sekarang, 10 tahun kemudian, Anto masih jadi karyawan dengan kenaikan gaji minimal, sementara Bimo sudah punya perusahaan dengan omset miliaran.</p></div>
+                <p class="chapter-text">Orang tanpa tujuan adalah seperti kapal tanpa kemudi—terombang-ambing ke mana angin membawanya. Mereka menghabiskan uang untuk barang-barang yang nggak perlu, menghabiskan waktu untuk aktivitas yang nggak ada artinya, dan menghabiskan energi untuk drama yang nggak penting.</p>
+                <p class="chapter-text">Elon Musk, dengan semua kontroversinya, punya satu hal yang jelas: tujuan hidup. Sejak awal karirnya, dia fokus pada tiga area: internet, energi terbarukan, dan menjadikan manusia spesies multi-planet. Setiap perusahaan yang dia bangun—PayPal, Tesla, SpaceX—semuanya mengarah ke visi besar itu. Sementara kebanyakan orang masih bingung mau ngapain weekend ini.</p>
+                <ul class="bullet-points">
+                    <li>Tanpa tujuan, lo akan jadi target marketing orang lain</li>
+                    <li>Waktu dan energi lo terbatas. Tanpa tujuan, keduanya akan terbuang percuma</li>
+                    <li>Orang dengan tujuan jelas membaca buku yang tepat. Orang tanpa tujuan scroll feed tanpa arah</li>
+                    <li>Tujuan hidup bukan tentang uang, tapi tentang arah yang memberi makna pada setiap keputusan</li>
+                </ul>
+                <p class="chapter-text">Ada seorang driver ojek online yang gue temui. Di usianya yang hampir 50 tahun, dia masih semangat bekerja dari pagi sampai malam. Ketika ditanya kenapa, dia jawab dengan mata berbinar: "Anak saya dua-duanya kuliah di universitas top. Saya punya target dalam 5 tahun ke depan, mereka lulus, saya punya toko kelontong sendiri, dan saya bisa pensiun dengan tenang." Bandingkan dengan banyak eksekutif muda yang gajinya 5-10 kali lipat tapi nggak tau mau ngapain dengan hidupnya.</p>
+                <div class="highlight-block"><div class="highlight-title">Solusi Radikal</div><p>Luangkan waktu sekarang juga. Tanyakan pada diri lo: "Apa yang benar-benar gue inginkan dalam 10 tahun ke depan?" Tulis dengan detail. Lalu tanyakan: "Buku apa yang perlu gue baca untuk mencapai itu?" Beli buku itu hari ini juga. Mulai baca besok pagi. Dan yang paling penting: evaluasi setiap keputusan lo dengan pertanyaan, "Apakah ini membawa gue lebih dekat ke tujuan gue?"</p></div>
+                <p class="chapter-text">Viktor Frankl, seorang psikiater yang selamat dari kamp konsentrasi Nazi, menulis dalam bukunya: "Mereka yang memiliki 'mengapa' untuk hidup dapat bertahan dalam hampir semua 'bagaimana'." Tanpa tujuan yang jelas, bahkan hidup termudah pun akan terasa berat dan hampa.</p>
+                <p class="chapter-text">Jadi, lo mau terus hidup tanpa arah dan membiarkan hidup lo ditentukan oleh kebetulan dan pilihan orang lain? Atau lo mau ambil kendali, tentukan tujuan yang jelas, dan mulai membaca buku-buku yang akan membawa lo ke sana? Ingat: hidup tanpa tujuan bukan cuma kosong, tapi juga sangat, sangat mahal.</p>
+                <div class="nav-buttons"><button class="nav-btn" data-target="chapter3">Bab Sebelumnya</button><button class="nav-btn" data-target="chapter5">Bab Selanjutnya</button></div>
+            </div>
+        </div>
+
+        <!-- Chapter 5 (Konten panjang asli) -->
+        <div class="page chapter" id="chapter5">
+            <div class="chapter-content">
+                <div class="chapter-header"><div class="chapter-number">BAB 05</div><h2 class="chapter-title">Otak Lo Butuh Rasa Sakit</h2></div>
+                <p class="chapter-text">Lo tau kenapa kebanyakan orang gagal mencapai potensi maksimal mereka? Karena mereka menghindari rasa sakit. Mereka menghindari ketidaknyamanan. Mereka menghindari struggle. Padahal, justru di situlah pertumbuhan terjadi.</p>
+                <p class="chapter-text">Membaca buku yang menantang pemikiran lo itu nggak nyaman. Belajar skill baru itu nggak nyaman. Menghadapi kebenaran tentang diri sendiri itu nggak nyaman. Tapi justru ketidaknyamanan inilah yang membuat otak lo tumbuh.</p>
+                <div class="highlight-block"><div class="highlight-title">Kasus Nyata</div><p>Dua orang mulai belajar coding dari nol. Yang pertama, Dani, hanya belajar saat mood-nya bagus dan berhenti begitu menemui kesulitan. Yang kedua, Rini, memaksa dirinya belajar minimal 2 jam setiap hari, bahkan saat frustasi dan ingin menyerah. Enam bulan kemudian, Dani masih berkutat dengan dasar-dasar, sementara Rini sudah mendapat pekerjaan sebagai junior developer dengan gaji 2x lipat dari pekerjaannya sebelumnya.</p></div>
+                <p class="chapter-text">Neurosains modern membuktikan: otak lo tumbuh saat menghadapi kesulitan, bukan saat bersantai. Ini disebut "neuroplasticity"—kemampuan otak untuk membentuk koneksi baru. Dan koneksi ini hanya terbentuk saat lo memaksa otak untuk berpikir keras, saat lo membaca buku yang menantang, saat lo keluar dari zona nyaman.</p>
+                <p class="chapter-text">David Goggins, mantan Navy SEAL dan ultramarathoner, mengatakan: "Kebanyakan orang beroperasi pada 40% dari potensi mereka." Kenapa? Karena begitu merasa tidak nyaman, mereka berhenti. Mereka menghindari rasa sakit. Padahal justru di sisi lain rasa sakit itulah kesuksesan menunggu.</p>
+                <ul class="bullet-points">
+                    <li>Rasa bosan saat membaca adalah tanda otak lo sedang melawan pertumbuhan</li>
+                    <li>Kebingungan saat belajar hal baru adalah tanda neuron-neuron baru sedang terbentuk</li>
+                    <li>Menghindari buku yang menantang = menghindari pertumbuhan mental</li>
+                    <li>Kenyamanan adalah musuh kemajuan</li>
+                </ul>
+                <p class="chapter-text">Ada seorang pengusaha sukses yang punya ritual aneh: setiap hari, dia sengaja melakukan sesuatu yang membuatnya tidak nyaman. Entah itu berbicara dengan orang asing, belajar skill baru, atau membaca buku di luar bidangnya. Ketika ditanya kenapa, dia menjawab: "Otot tumbuh saat dirusak dulu. Otak juga begitu. Kalau hari ini nggak ada yang bikin saya struggle, berarti hari ini saya nggak tumbuh."</p>
+                <div class="highlight-block"><div class="highlight-title">Solusi Radikal</div><p>Mulai hari ini: Identifikasi satu area di hidup lo yang lo hindari karena terlalu menantang. Mungkin itu buku yang terlalu kompleks, skill yang lo takut pelajari, atau kebenaran tentang diri yang lo tolak. Hadapi itu selama 30 menit setiap hari. Rasakan ketidaknyamanannya. Bertahanlah. Lakukan ini selama 30 hari berturut-turut, dan lo akan melihat transformasi luar biasa dalam diri lo.</p></div>
+                <p class="chapter-text">Angela Duckworth, dalam penelitiannya tentang "grit" (kegigihan), menemukan bahwa kesuksesan jangka panjang lebih ditentukan oleh kemampuan seseorang untuk bertahan dalam kesulitan daripada oleh bakat bawaan. Orang-orang yang bersedia menghadapi rasa sakit mental—kebingungan, frustasi, kegagalan—adalah mereka yang akhirnya mencapai keunggulan.</p>
+                <p class="chapter-text">Jadi, lo mau terus hidup di zona nyaman, menghindari buku-buku yang menantang, menghindari kebenaran yang tidak nyaman, dan tetap jadi versi mediocre dari diri lo? Atau lo mau memeluk rasa sakit, mendorong batas mental lo, dan mencapai potensi penuh lo? Ingat: otak lo butuh rasa sakit untuk tumbuh. Tanpa itu, lo hanya akan stagnan.</p>
+                <div class="nav-buttons"><button class="nav-btn" data-target="chapter4">Bab Sebelumnya</button><button class="nav-btn" data-target="chapter6">Bab Selanjutnya</button></div>
+            </div>
+        </div>
+        
+        <!-- Chapter 6 (Konten panjang asli) -->
+        <div class="page chapter" id="chapter6">
+            <div class="chapter-content">
+                <div class="chapter-header"><div class="chapter-number">BAB 06</div><h2 class="chapter-title">Dihina Itu Obat Ambisi</h2></div>
+                <p class="chapter-text">Lo pernah nggak, dihina atau diremehkan orang lain? Mungkin dosen yang bilang lo nggak akan sukses, bos yang meremehkan ide lo, atau teman yang menertawakan mimpi lo? Kebanyakan orang akan sakit hati, menyerah, atau mencari validasi. Tapi orang-orang luar biasa? Mereka menjadikan hinaan itu sebagai bahan bakar.</p>
+                <p class="chapter-text">Hinaan dan penolakan adalah salah satu obat paling ampuh untuk menumbuhkan ambisi yang membara. Tapi hanya jika lo tau cara menggunakannya dengan benar.</p>
+                <div class="highlight-block"><div class="highlight-title">Kasus Nyata</div><p>Jack Ma ditolak dari 30 pekerjaan, termasuk KFC. Dia juga ditolak 10 kali dari Harvard. Orang-orang menertawakannya ketika dia bicara tentang internet di China pada tahun 90-an. Tapi alih-alih menyerah, dia menjadikan semua penolakan itu sebagai bahan bakar. Hasilnya? Alibaba, salah satu perusahaan terbesar di dunia. Saat ditanya apa rahasia suksesnya, dia menjawab: "Saya menyimpan semua surat penolakan. Mereka mengingatkan saya untuk terus membuktikan bahwa mereka salah."</p></div>
+                <p class="chapter-text">Psikologi di balik ini sederhana: ketika seseorang meremehkan lo, ada dua reaksi yang mungkin terjadi. Pertama, lo percaya dan menyerah. Kedua, lo marah dan bertekad untuk membuktikan mereka salah. Pilihan kedua inilah yang melahirkan ambisi luar biasa.</p>
+                <p class="chapter-text">Michael Jordan dikeluarkan dari tim basket SMA-nya. Dia menjadikan momen itu sebagai motivasi sepanjang karirnya. Bahkan setelah menjadi pemain terbaik, dia masih mencari-cari alasan untuk merasa "diremehkan" agar apinya tetap menyala.</p>
+                <ul class="bullet-points">
+                    <li>Hinaan adalah cermin yang menunjukkan area di mana lo harus tumbuh</li>
+                    <li>Penolakan adalah penunjuk arah menuju versi terbaik diri lo</li>
+                    <li>Orang yang tidak pernah dihina adalah orang yang tidak pernah mencoba sesuatu yang berarti</li>
+                    <li>Validasi eksternal adalah candu yang melemahkan ambisi</li>
+                </ul>
+                <p class="chapter-text">Ada seorang penulis muda yang bukunya ditolak oleh 12 penerbit. Satu editor bahkan menulis: "Gaya tulisan Anda buruk dan cerita Anda membosankan." Alih-alih menyerah, dia menempelkan semua surat penolakan itu di dinding kamarnya. Setiap pagi, dia membacanya untuk "membakar" semangatnya. Dua tahun kemudian, bukunya diterbitkan dan menjadi bestseller nasional. Dalam kata pengantarnya, dia menulis: "Terima kasih kepada 12 penerbit yang menolak buku ini. Tanpa kalian, saya tidak akan bekerja sekeras ini untuk membuktikan kalian salah."</p>
+                <div class="highlight-block"><div class="highlight-title">Solusi Radikal</div><p>Mulai sekarang: Buat "Rejection Journal". Catat setiap kali lo ditolak, diremehkan, atau dihina. Tulis dengan detail siapa yang melakukannya, apa yang mereka katakan, dan bagaimana perasaan lo. Lalu, di bawahnya, tulis: "Ini adalah bahan bakar saya. Saya akan membuktikan mereka salah." Baca jurnal ini setiap kali motivasi lo menurun.</p></div>
+                <p class="chapter-text">Elon Musk sering bercerita bagaimana para ahli roket menertawakan idenya tentang SpaceX. "Mereka tidak hanya mengatakan itu tidak mungkin, mereka menertawakan saya di depan umum," katanya. Tapi alih-alih mundur, dia menjadikan ejekan itu sebagai motivasi untuk belajar lebih keras, membaca lebih banyak buku tentang roket, dan akhirnya membuktikan mereka salah.</p>
+                <p class="chapter-text">Jadi, lo mau terus mencari validasi dan menghindari kritik? Atau lo mau mulai melihat hinaan sebagai hadiah—obat pahit yang akan menumbuhkan ambisi luar biasa dalam diri lo? Ingat: orang-orang biasa hancur oleh kritik. Orang-orang luar biasa dibentuk olehnya.</p>
+                <div class="nav-buttons"><button class="nav-btn" data-target="chapter5">Bab Sebelumnya</button><button class="nav-btn" data-target="chapter7">Bab Selanjutnya</button></div>
+            </div>
+        </div>
+
+        <!-- Chapter 7 (Konten panjang asli) -->
+        <div class="page chapter" id="chapter7">
+            <div class="chapter-content">
+                <div class="chapter-header"><div class="chapter-number">BAB 07</div><h2 class="chapter-title">Males Baca = Males Hidup</h2></div>
+                <p class="chapter-text">Ada korelasi langsung antara kemalasan membaca dan kemalasan hidup. Orang yang malas membaca biasanya juga malas berpikir, malas berusaha, dan malas menghadapi tantangan. Ini bukan opini, tapi pola yang konsisten terlihat pada ribuan orang yang gue amati selama bertahun-tahun.</p>
+                <p class="chapter-text">Membaca bukan cuma tentang menyerap informasi. Membaca adalah latihan mental. Sama seperti gym melatih otot fisik lo, membaca melatih otot mental lo—fokus, disiplin, ketekunan, dan kemampuan berpikir kritis. Ketika lo menghindari membaca, lo sebenarnya menghindari workout mental yang lo butuhkan.</p>
+                <div class="highlight-block"><div class="highlight-title">Kasus Nyata</div><p>Dua orang masuk ke perusahaan yang sama di posisi yang sama. Yang pertama, Adi, menghabiskan waktu luangnya untuk nonton Netflix dan main game. Yang kedua, Budi, membaca minimal satu buku bisnis atau pengembangan diri setiap bulan. Tiga tahun kemudian, Adi masih di posisi yang sama dengan kenaikan gaji standar. Budi? Dia sudah dipromosikan dua kali, gajinya naik 70%, dan dia dipercaya menangani proyek-proyek strategis. Bos mereka mengatakan: "Perbedaannya jelas. Budi selalu punya insight baru, selalu bisa melihat big picture, dan selalu punya solusi kreatif. Adi hanya mengerjakan apa yang diperintahkan."</p></div>
+                <p class="chapter-text">Warren Buffett, salah satu investor terkaya dunia, menghabiskan 80% waktunya untuk membaca. Ketika ditanya rahasia suksesnya, dia mengangkat setumpuk buku dan berkata: "Baca 500 halaman seperti ini setiap hari. Begitulah pengetahuan bekerja. Ia membangun, seperti bunga majemuk. Semua orang bisa melakukannya, tapi saya jamin tidak banyak yang akan melakukannya."</p>
+                <p class="chapter-text">Masalahnya bukan lo nggak punya waktu untuk baca. Masalahnya adalah lo nggak menjadikan membaca sebagai prioritas. Lo punya waktu untuk scroll TikTok berjam-jam, tapi nggak punya waktu untuk baca 30 menit? Itu bukan masalah waktu, tapi masalah prioritas.</p>
+                <ul class="bullet-points">
+                    <li>Orang yang malas baca adalah orang yang memilih jadi bodoh secara sukarela</li>
+                    <li>Setiap buku yang lo baca adalah keunggulan kompetitif dibanding orang yang tidak membacanya</li>
+                    <li>Membaca bukan cuma menambah pengetahuan, tapi melatih kemampuan berpikir</li>
+                    <li>Kemalasan membaca adalah indikator kemalasan mental secara keseluruhan</li>
+                </ul>
+                <p class="chapter-text">Ada seorang CEO perusahaan teknologi yang selalu mengajukan satu pertanyaan saat interview: "Buku apa yang sedang Anda baca?" Jika kandidat menjawab "Saya tidak punya waktu untuk membaca" atau "Saya tidak suka membaca", interview berakhir di situ. Ketika ditanya kenapa, dia menjawab: "Orang yang tidak membaca adalah orang yang berhenti belajar. Dan orang yang berhenti belajar tidak punya tempat di perusahaan yang terus berkembang."</p>
+                <div class="highlight-block"><div class="highlight-title">Solusi Radikal</div><p>Mulai hari ini: Pasang target membaca minimal 10 halaman setiap hari, tanpa terkecuali. Letakkan buku di samping tempat tidur, di meja kerja, dan di tas lo. Hapus satu aplikasi media sosial dari HP lo dan ganti dengan aplikasi e-book. Dan yang paling penting: akui bahwa kemalasan membaca adalah masalah serius yang perlu lo atasi sekarang juga.</p></div>
+                <p class="chapter-text">Mark Cuban, miliarder dan pemilik Dallas Mavericks, membaca minimal 3 jam setiap hari. Dia mengatakan: "Semuanya berubah kecuali usaha untuk terus belajar. Anda harus terus belajar atau Anda akan tertinggal." Sementara kebanyakan orang mencari shortcut dan quick fix, orang-orang sukses justru menginvestasikan waktu mereka untuk membaca dan belajar.</p>
+                <p class="chapter-text">Jadi, lo mau terus jadi orang yang malas baca dan pada akhirnya malas hidup? Atau lo mau mulai membangun kebiasaan membaca yang akan mengubah seluruh trajectory hidup lo? Ingat: kemalasan membaca bukan cuma tentang buku. Ini tentang pola pikir yang akan memengaruhi seluruh aspek kehidupan lo.</p>
+                <div class="nav-buttons"><button class="nav-btn" data-target="chapter6">Bab Sebelumnya</button><button class="nav-btn" data-target="chapter8">Bab Selanjutnya</button></div>
+            </div>
+        </div>
+
+        <!-- Chapter 8 (Konten panjang asli) -->
+        <div class="page chapter" id="chapter8">
+            <div class="chapter-content">
+                <div class="chapter-header"><div class="chapter-number">BAB 08</div><h2 class="chapter-title">Satu Hal yang Ngubah Hidup Orang Biasa</h2></div>
+                <p class="chapter-text">Apa yang membedakan orang biasa dengan orang luar biasa? Bukan IQ. Bukan latar belakang keluarga. Bukan keberuntungan. Tapi satu hal sederhana yang bisa dilakukan siapa saja: konsistensi jangka panjang.</p>
+                <p class="chapter-text">Konsistensi adalah superpower yang diabaikan. Semua orang mencari rahasia kesuksesan yang kompleks, padahal jawabannya sederhana: lakukan hal yang benar secara konsisten dalam jangka panjang, dan lo akan mendapatkan hasil yang luar biasa.</p>
+                <div class="highlight-block"><div class="highlight-title">Kasus Nyata</div><p>Darren Hardy, penulis buku "The Compound Effect", melakukan eksperimen sederhana. Dia mengambil tiga orang dengan kondisi awal yang sama. Orang pertama tidak mengubah apapun dalam hidupnya. Orang kedua membuat satu perubahan positif kecil setiap hari. Orang ketiga membuat satu perubahan negatif kecil setiap hari. Setelah 10 bulan, tidak ada perbedaan signifikan. Tapi setelah 25 bulan, perbedaannya luar biasa. Orang kedua jauh lebih sukses, sementara orang ketiga mengalami kemunduran drastis. Inilah kekuatan konsistensi jangka panjang.</p></div>
+                <p class="chapter-text">Masalahnya, kebanyakan orang hidup dalam budaya instan. Mereka mau hasil cepat. Mereka mulai diet, tapi menyerah setelah dua minggu karena belum melihat perubahan. Mereka mulai belajar skill baru, tapi berhenti setelah sebulan karena merasa tidak berbakat. Mereka mulai membaca buku, tapi berhenti setelah beberapa halaman karena merasa bosan.</p>
+                <p class="chapter-text">Stephen King, salah satu penulis tersukses sepanjang masa, menulis minimal 2.000 kata setiap hari, tanpa terkecuali, bahkan di hari ulang tahunnya. Dia melakukan ini selama puluhan tahun. Hasilnya? Lebih dari 60 novel bestseller dan kekayaan lebih dari $400 juta. Bukan karena dia jenius, tapi karena dia konsisten.</p>
+                <ul class="bullet-points">
+                    <li>Konsistensi mengalahkan intensitas. Lebih baik baca 10 halaman setiap hari daripada 100 halaman sekali seminggu</li>
+                    <li>Kesuksesan bukan tentang tindakan heroik, tapi tentang kebiasaan harian</li>
+                    <li>Orang biasa fokus pada tujuan. Orang luar biasa fokus pada sistem</li>
+                    <li>Konsistensi adalah bentuk tertinggi dari disiplin diri</li>
+                </ul>
+                <p class="chapter-text">Ada seorang pria bernama Cliff Young. Di usia 61 tahun, dia mengikuti ultramarathon 875 km, bersaing dengan atlet profesional yang berusia separuh darinya. Semua orang menertawakannya. Tapi Cliff memiliki satu keunggulan: konsistensi. Sementara atlet lain berlari lalu istirahat, Cliff terus berlari dengan kecepatan lambat tapi konstan, bahkan saat tidur malam. Hasilnya? Dia memenangkan lomba dan memecahkan rekor dengan margin 10 jam. Bukan karena dia lebih kuat atau lebih cepat, tapi karena dia lebih konsisten.</p>
+                <div class="highlight-block"><div class="highlight-title">Solusi Radikal</div><p>Mulai hari ini: Pilih satu kebiasaan kecil yang bisa lo lakukan setiap hari tanpa gagal. Mungkin itu membaca 10 halaman, menulis 500 kata, atau belajar bahasa asing selama 15 menit. Lakukan ini setiap hari selama minimal 66 hari (waktu yang dibutuhkan untuk membentuk kebiasaan menurut penelitian terbaru). Jangan fokus pada hasilnya dulu. Fokus pada proses dan konsistensi.</p></div>
+                <p class="chapter-text">James Clear, penulis "Atomic Habits", mengatakan: "Jika Anda menjadi 1% lebih baik setiap hari selama setahun, Anda akan menjadi 37 kali lebih baik di akhir tahun." Ini kekuatan dari konsistensi dan compound effect. Masalahnya, kebanyakan orang menyerah sebelum efek kompound ini mulai bekerja.</p>
+                <p class="chapter-text">Jadi, lo mau terus mencari rahasia kesuksesan yang kompleks dan shortcut yang tidak ada? Atau lo mau mulai menerapkan satu hal sederhana yang benar-benar mengubah hidup orang biasa menjadi luar biasa: konsistensi jangka panjang? Ingat: bukan tentang seberapa besar langkah yang lo ambil, tapi seberapa konsisten lo mengambil langkah tersebut.</p>
+                <div class="nav-buttons"><button class="nav-btn" data-target="chapter7">Bab Sebelumnya</button><button class="nav-btn" data-target="chapter9">Bab Selanjutnya</button></div>
+            </div>
+        </div>
+        
+        <!-- Chapter 9 (Konten panjang asli) -->
+        <div class="page chapter" id="chapter9">
+            <div class="chapter-content">
+                <div class="chapter-header"><div class="chapter-number">BAB 09</div><h2 class="chapter-title">Obsesi Gila-Gilaan Itu Sehat</h2></div>
+                <p class="chapter-text">Masyarakat sering mengajarkan kita untuk "seimbang" dan "tidak berlebihan". Tapi coba lihat orang-orang yang benar-benar mengubah dunia—mereka semua memiliki satu kesamaan: obsesi yang gila-gilaan terhadap satu hal.</p>
+                <p class="chapter-text">Obsesi yang sehat bukanlah gangguan mental. Ini adalah fokus intens yang memungkinkan lo mencapai hal-hal yang mustahil bagi orang biasa. Ini adalah api yang membakar semua hambatan dan keraguan.</p>
+                <div class="highlight-block"><div class="highlight-title">Kasus Nyata</div><p>Kobe Bryant, legenda basket NBA, memiliki rutinitas latihan yang dianggap gila oleh rekan-rekannya. Dia bangun pukul 4 pagi untuk latihan, sering berlatih 6-7 jam sebelum latihan tim resmi dimulai. Dia mempelajari setiap detail permainan, dari biomekanik gerakan hingga psikologi lawan. Ketika ditanya mengapa dia begitu terobsesi, dia menjawab: "Orang-orang bilang saya gila. Saya bilang, terima kasih." Obsesinya menghasilkan 5 gelar NBA dan warisan yang abadi.</p></div>
+                <p class="chapter-text">Masalahnya, kebanyakan orang takut dianggap "tidak seimbang" atau "terlalu terobsesi". Mereka menyebar energi ke banyak hal, mencoba menjadi "well-rounded", dan akhirnya tidak menonjol di bidang apapun. Mereka takut pada intensitas yang justru dibutuhkan untuk mencapai keunggulan.</p>
+                <p class="chapter-text">Elon Musk terkenal bekerja 80-100 jam per minggu. Ketika ditanya apakah ini sehat, dia menjawab: "Tidak ada yang pernah mengubah dunia dengan bekerja 40 jam seminggu." Dia tidur di pabrik Tesla selama berbulan-bulan untuk memastikan target produksi tercapai. Gila? Mungkin. Tapi obsesi inilah yang memungkinkannya mencapai hal-hal yang dianggap mustahil.</p>
+                <ul class="bullet-points">
+                    <li>Keseimbangan adalah mitos yang membuat lo mediocre di semua bidang</li>
+                    <li>Obsesi adalah bahan bakar inovasi dan keunggulan</li>
+                    <li>Orang biasa takut dianggap gila. Orang luar biasa memeluk kegilaan mereka</li>
+                    <li>Tanpa obsesi, lo hanya akan mencapai apa yang sudah dicapai orang lain</li>
+                </ul>
+                <p class="chapter-text">Ada seorang penulis yang selama 5 tahun mengurung diri di apartemen kecil untuk menulis novel pertamanya. Dia hampir tidak pernah keluar kecuali untuk membeli bahan makanan. Teman-temannya khawatir dia depresi atau gila. Tapi dia sedang terobsesi. Novel itu akhirnya diterbitkan dan memenangkan Pulitzer Prize. Dalam pidato penerimaannya, dia berkata: "Orang-orang mengira saya sakit. Tapi saya tidak pernah merasa lebih hidup daripada saat terobsesi dengan karya saya."</p>
+                <div class="highlight-block"><div class="highlight-title">Solusi Radikal</div><p>Mulai sekarang: Identifikasi satu hal yang benar-benar lo inginkan. Bukan yang lo pikir seharusnya lo inginkan, tapi yang benar-benar membuat lo bergairah. Lalu, biarkan diri lo terobsesi. Baca semua buku tentang itu. Ikuti semua ahli di bidang itu. Latih setiap hari. Jangan khawatir dianggap tidak seimbang. Keseimbangan adalah untuk orang-orang yang puas dengan mediokritas.</p></div>
+                <p class="chapter-text">Steve Jobs terkenal dengan "reality distortion field"—kemampuannya untuk terobsesi pada visi yang tampaknya mustahil dan menularkan obsesi itu kepada timnya. Dia mendorong tim untuk mencapai hal-hal yang mereka sendiri anggap tidak mungkin. Hasilnya? Apple menjadi perusahaan paling berharga di dunia dan mengubah setidaknya tujuh industri berbeda.</p>
+                <p class="chapter-text">Jadi, lo mau terus hidup "seimbang" dan mediocre? Atau lo mau menemukan satu hal yang membuat lo bergairah dan membiarkan diri lo terobsesi secara sehat? Ingat: obsesi bukanlah penyakit mental. Ini adalah superpower yang hanya dimiliki oleh mereka yang berani mengejar keunggulan tanpa kompromi.</p>
+                <div class="nav-buttons"><button class="nav-btn" data-target="chapter8">Bab Sebelumnya</button><button class="nav-btn" data-target="chapter10">Bab Selanjutnya</button></div>
+            </div>
+        </div>
+        
+        <!-- Chapter 10 (Konten panjang asli) -->
+        <div class="page chapter" id="chapter10">
+            <div class="chapter-content">
+                <div class="chapter-header"><div class="chapter-number">BAB 10</div><h2 class="chapter-title">Lo Butuh Pukulan, Bukan Motivasi</h2></div>
+                <p class="chapter-text">Motivasi itu enak didengar tapi cepat hilang. Sementara pukulan—realita pahit yang lo hindari—itu yang bikin lo berubah.</p>
+                <p class="chapter-text">Lo nggak butuh kata-kata manis. Lo butuh ditampar sama kenyataan bahwa kalau lo nggak bangun dan gerak sekarang, hidup lo akan tetap di situ-situ aja, atau malah lebih buruk.</p>
+                <div class="highlight-block"><div class="highlight-title">Kasus Nyata</div><p>Rio, usia 28, kerjaan stagnan, hidup flat. Dia nonton ratusan video motivasi, tapi nggak ada perubahan. Sampai suatu hari dia lihat temen SMA-nya beli rumah cash. Dia merasa ditampar. Malam itu juga dia mulai belajar skill baru dan bangun usaha.</p></div>
+                <ul class="bullet-points">
+                    <li>Motivasi bikin lo senang, tapi nggak bikin lo jalan</li>
+                    <li>Pukulan realita bikin lo bangkit, karena lo malu</li>
+                    <li>Lo berubah bukan karena terinspirasi, tapi karena muak</li>
+                    <li>Penderitaan kadang lebih jujur daripada semua seminar motivasi</li>
+                </ul>
+                <p class="chapter-text">Mulai sekarang, setiap kali lo merasa termotivasi, tanyakan: 'Apa yang sudah gue lakukan hari ini?' Kalau jawabannya nol, berarti lo cuma ketagihan perasaan senang. Lo butuh pukulan, bukan pelukan.</p>
+                <div class="nav-buttons"><button class="nav-btn" data-target="chapter9">Bab Sebelumnya</button><button class="nav-btn" data-target="chapter11">Bab Selanjutnya</button></div>
+            </div>
+        </div>
+
+        <!-- Chapter 11 (Konten panjang asli) -->
+        <div class="page chapter" id="chapter11">
+            <div class="chapter-content">
+                <div class="chapter-header"><div class="chapter-number">BAB 11</div><h2 class="chapter-title">Kenapa Lo Gak Pernah Fokus</h2></div>
+                <p class="chapter-text">Setiap kali mulai kerja, baru 10 menit udah buka notifikasi. Baca buku, baru satu halaman, udah scroll Instagram. Kenapa lo nggak pernah bisa fokus lama? Karena otak lo dibiasakan hidup dalam distraksi.</p>
+                <p class="chapter-text">Setiap notifikasi, setiap scroll, adalah suntikan dopamin instan yang bikin lo ketagihan. Dan ketagihan ini bikin lo nggak bisa tahan lama dalam satu aktivitas produktif. Lo jadi pelompat—bukan pelari jarak jauh.</p>
+                <div class="highlight-block"><div class="highlight-title">Kasus Nyata</div><p>Ada mahasiswa yang tiap belajar 10 menit, langsung buka HP. Nilainya jeblok. Tapi setelah pakai teknik Pomodoro—25 menit kerja tanpa distraksi, 5 menit istirahat—nilainya naik drastis. Bukan karena lebih pintar, tapi karena lebih fokus.</p></div>
+                <ul class="bullet-points">
+                    <li>Fokus bukan bakat. Fokus itu kebiasaan</li>
+                    <li>Distraksi bikin lo gagal selesaikan hal besar</li>
+                    <li>Otak lo perlu dilatih kayak otot: paksa dia fokus makin lama</li>
+                    <li>Setiap kali lo gagal fokus, lo buang kesempatan tumbuh</li>
+                </ul>
+                <p class="chapter-text">Mulai hari ini, hapus semua notifikasi nggak penting. Set waktu kerja tanpa gangguan. Latih otak lo untuk fokus minimal 30 menit sehari. Karena tanpa fokus, semua impian lo cuma wacana.</p>
+                <div class="highlight-block"><div class="highlight-title">Solusi Radikal</div><p>Aktifkan mode pesawat 1 jam setiap hari. Pakai timer. Fokus total ke satu tugas penting. Lakukan ini 30 hari. Lo bakal kaget betapa tajamnya otak lo setelah bebas dari racun distraksi.</p></div>
+                <p class="chapter-text">Jadi, mau terus jadi korban notifikasi? Atau lo mulai ambil alih fokus lo sendiri? Ingat: dunia dikuasai bukan oleh orang yang paling pintar, tapi oleh orang yang bisa fokus paling lama.</p>
+                <div class="nav-buttons"><button class="nav-btn" data-target="chapter10">Bab Sebelumnya</button><button class="nav-btn" data-target="chapter12">Bab Selanjutnya</button></div>
+            </div>
+        </div>
+
+        <!-- Chapter 12 (Konten panjang asli) -->
+        <div class="page chapter" id="chapter12">
+            <div class="chapter-content">
+                <div class="chapter-header"><div class="chapter-number">BAB 12</div><h2 class="chapter-title">Ngatur Waktu Buat Orang Malas</h2></div>
+                <p class="chapter-text">Kalau lo merasa ngatur waktu itu ribet, artinya lo butuh sistem yang simpel. Karena justru orang yang paling malas lah yang wajib punya sistem waktu. Kalau nggak, hidup lo cuma diisi rebahan dan rasa bersalah.</p>
+                <p class="chapter-text">Jangan pakai to-do list panjang kayak koran. Cukup tiga hal penting per hari. Pagi nulis, siang belajar, sore eksekusi. Udah. Selesai.</p>
+                <div class="highlight-block"><div class="highlight-title">Kasus Nyata</div><p>Ada pemuda yang kerja sambil kuliah. Dia cuma punya 3 jam kosong per hari. Tapi dia bisa bikin konten, baca buku, dan bangun bisnis kecil. Rahasianya? Dia pakai prinsip “waktu sempit = fokus padat”.</p></div>
+                <ul class="bullet-points">
+                    <li>Waktu lo bukan kurang, lo aja yang kebanyakan scroll</li>
+                    <li>Orang sukses punya rutinitas, bukan motivasi</li>
+                    <li>Lo cuma butuh 3 jam produktif sehari untuk ngalahin 97% orang</li>
+                    <li>Ngatur waktu = ngatur masa depan</li>
+                </ul>
+                <p class="chapter-text">Coba sekarang: buka catatan. Tulis 3 hal penting yang harus lo kerjain besok. Blok waktunya. Matikan gangguan. Lakukan. Besoknya ulangi. Gitu aja terus. Simple tapi brutal.</p>
+                <div class="highlight-block"><div class="highlight-title">Solusi Radikal</div><p>Pakai aturan 3-1-0: 3 tugas utama, 1 gangguan utama yang lo potong, dan 0 alasan. Lo males karena lo longgar. Bikin hidup lo sempit, dan lo bakal jadi versi terbaik lo.</p></div>
+                <p class="chapter-text">Jadi, lo mau terus hidup tanpa arah dan nyalahin waktu? Atau mulai kuasai waktu dan bentuk masa depan lo sendiri? Ingat: waktu itu demokratis. Tapi hasilnya tergantung siapa yang disiplin.</p>
+                <div class="nav-buttons"><button class="nav-btn" data-target="chapter11">Bab Sebelumnya</button><button class="nav-btn" data-target="chapter13">Bab Selanjutnya</button></div>
+            </div>
+        </div>
+
+        <!-- Chapter 13 (Konten panjang asli) -->
+        <div class="page chapter" id="chapter13">
+            <div class="chapter-content">
+                <div class="chapter-header"><div class="chapter-number">BAB 13</div><h2 class="chapter-title">Otak Lo Butuh Konten yang Nendang</h2></div>
+                <p class="chapter-text">Setiap hari lo dicekoki konten receh, gosip, drama nggak penting. Pelan-pelan, tanpa sadar, standar berpikir lo turun.</p>
+                <p class="chapter-text">Otak lo kayak otot. Kasih dia beban ringan terus (konten sampah), dia lemah. Kasih beban berat (konten dalam, buku, debat pemikiran), dia jadi tajam.</p>
+                <div class="highlight-block"><div class="highlight-title">Kasus Nyata</div><p>Dimas, 24 tahun, awalnya tiap malam scroll video lucu sampai jam 2 pagi. Setelah sadar hidupnya stuck, dia ganti: tiap malam nonton TEDx, podcast bisnis, baca buku. Dalam 6 bulan, dia jadi narasumber seminar digital marketing.</p></div>
+                <ul class="bullet-points">
+                    <li>Konten ringan bikin pikiran lo tumpul.</li>
+                    <li>Konten berat bikin otak lo berotot.</li>
+                    <li>Pilih tontonan sama ketatnya kayak lo pilih makanan.</li>
+                    <li>Scroll konten asal-asalan = mental lo ikut asal.</li>
+                </ul>
+                <p class="chapter-text">Lo nggak perlu delete semua hiburan. Tapi lo wajib upgrade standar konsumsi. Tonton, baca, dengar yang bisa nendang logika dan dorong lo berpikir lebih dalam.</p>
+                <div class="nav-buttons"><button class="nav-btn" data-target="chapter12">Bab Sebelumnya</button><button class="nav-btn" data-target="chapter14">Bab Selanjutnya</button></div>
+            </div>
+        </div>
+
+        <!-- Chapter 14 (Konten panjang asli) -->
+        <div class="page chapter" id="chapter14">
+            <div class="chapter-content">
+                <div class="chapter-header"><div class="chapter-number">BAB 14</div><h2 class="chapter-title">Baca Buku = Gali Kubur Kegagalan</h2></div>
+                <p class="chapter-text">Setiap halaman yang lo baca, itu seperti gali kubur buat kegagalan lo. Karena semakin banyak lo tahu, semakin kecil celah kesalahan lo.</p>
+                <p class="chapter-text">Orang yang gagal terus biasanya karena dia malas baca. Semua kesalahan yang dia alami, udah pernah ditulis orang. Tapi dia nggak mau tahu.</p>
+                <div class="highlight-block"><div class="highlight-title">Kasus Nyata</div><p>Rina, pemilik kafe. Awalnya rugi terus karena salah kelola. Setelah baca buku 'The E-Myth', dia sadar semua kesalahannya dasar banget. Sekarang? Cabangnya tiga, omzet naik 500%.</p></div>
+                <ul class="bullet-points">
+                    <li>Buku adalah shortcut dari ratusan kegagalan orang lain.</li>
+                    <li>Lo bisa gagal karena lo nggak tau—dan lo nggak tau karena nggak baca.</li>
+                    <li>Males baca = pengen gagal berkali-kali tanpa belajar.</li>
+                    <li>Buku bukan teori doang, itu pengalaman berdarah yang dibungkus rapi.</li>
+                </ul>
+                <p class="chapter-text">Lo mau hemat waktu, uang, dan mental? Baca buku. Itu cara tercepat untuk mengubur kegagalan sebelum dia muncul di hidup lo.</p>
+                <div class="nav-buttons"><button class="nav-btn" data-target="chapter13">Bab Sebelumnya</button><button class="nav-btn" data-target="chapter15">Bab Selanjutnya</button></div>
+            </div>
+        </div>
+
+        <!-- Chapter 15 (Konten panjang asli) -->
+        <div class="page chapter" id="chapter15">
+            <div class="chapter-content">
+                <div class="chapter-header"><div class="chapter-number">BAB 15</div><h2 class="chapter-title">Upgrade Diri atau Ditinggal Mati</h2></div>
+                <p class="chapter-text">Dunia nggak nungguin lo. Teknologi berubah cepat. Persaingan makin brutal. Kalau lo nggak upgrade diri, lo bakal dilindas.</p>
+                <p class="chapter-text">Skill lo sekarang bisa jadi udah basi tahun depan. Dan kalau lo tetap nyaman, lo nggak sadar hidup lo udah ditinggal jauh sama orang lain.</p>
+                <div class="highlight-block"><div class="highlight-title">Kasus Nyata</div><p>Andra, 35 tahun, ahli desain grafis. Awalnya keren. Tapi dia nolak belajar AI design. Sekarang? Klien pindah ke freelancer muda yang bisa pakai AI tool. Andra nganggur 6 bulan sebelum akhirnya mulai belajar ulang dari nol.</p></div>
+                <ul class="bullet-points">
+                    <li>Upgrade diri bukan pilihan, tapi kebutuhan.</li>
+                    <li>Lo gak belajar = lo tinggal sejarah.</li>
+                    <li>Pasar cuma bayar yang relevan, bukan yang nyaman.</li>
+                    <li>Bertahan tanpa upgrade = bunuh diri perlahan.</li>
+                </ul>
+                <p class="chapter-text">Tentukan satu skill baru yang mau lo pelajari bulan ini. Baca buku, ikut course, cari mentor. Karena kalau lo nggak gerak, lo bakal digilas zaman. Upgrade atau dilupakan.</p>
+                <div class="nav-buttons"><button class="nav-btn" data-target="chapter14">Bab Sebelumnya</button><button class="nav-btn" data-target="conclusion">Penutup</button></div>
+            </div>
+        </div>
+
+        <!-- Conclusion Page -->
+        <div class="page conclusion" id="conclusion">
+            <div class="conclusion-content">
+                <h2 class="conclusion-title">Api Sudah Menyala</h2>
+                <p class="conclusion-text">Lo sudah sampai di akhir. Tapi ini bukan akhir, ini adalah awal. Awal dari lo yang baru—yang lebih lapar, lebih disiplin, dan lebih ambisius. Sekarang pertanyaannya: <strong>apa yang akan lo lakukan?</strong></p>
+                <p class="conclusion-text">Biarkan e-book ini jadi pengingat. Saat lo merasa malas, buka lagi bab yang relevan. Saat lo mau menyerah, ingat bahwa konsistensi adalah kuncinya.</p>
+                <p class="conclusion-text"><strong>Tugas lo sekarang adalah menjaga apinya tetap membara.</strong> Keluar dari sini, tutup e-book ini, dan mulai eksekusi. Dunia tidak butuh satu lagi pemimpi. Dunia butuh eksekutor.</p>
+                <div class="nav-buttons">
+                    <button class="nav-btn" data-target="chapter15">Kembali</button>
+                    <button class="nav-btn" data-target="cover">Mulai dari Awal</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- Inisialisasi Elemen DOM ---
+        const pages = document.querySelectorAll('.page');
+        const navButtons = document.querySelectorAll('.nav-btn:not(.floating-btn)');
+        const tocItems = document.querySelectorAll('.toc-item');
+        const progressBar = document.getElementById('progressBar');
+        const tocBtn = document.getElementById('tocBtn');
+        
+        const pageOrder = ['cover', 'intro', 'toc', 'chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5', 'chapter6', 'chapter7', 'chapter8', 'chapter9', 'chapter10', 'chapter11', 'chapter12', 'chapter13', 'chapter14', 'chapter15', 'conclusion'];
+        const totalPages = pageOrder.length;
+
+        /**
+         * Fungsi untuk berpindah halaman.
+         * @param {string} targetId - ID dari halaman yang dituju.
+         */
+        function changePage(targetId) {
+            pages.forEach(p => p.classList.remove('active'));
+
+            const targetPage = document.getElementById(targetId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                window.scrollTo(0, 0);
+                updateProgress(targetId);
+                saveProgress(targetId);
+                
+                tocBtn.style.display = (targetId !== 'cover' && targetId !== 'intro' && targetId !== 'toc') ? 'flex' : 'none';
+
+            } else {
+                console.error(`Halaman dengan ID "${targetId}" tidak ditemukan.`);
+                document.getElementById('cover').classList.add('active');
+            }
+        }
+
+        /**
+         * Memperbarui progress bar berdasarkan halaman saat ini.
+         * @param {string} currentId - ID dari halaman yang aktif.
+         */
+        function updateProgress(currentId) {
+            const pageIndex = pageOrder.indexOf(currentId);
+            if (pageIndex !== -1) {
+                const progressPercentage = ((pageIndex + 1) / totalPages) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+            } else {
+                 progressBar.style.width = '0%';
+            }
+        }
+
+        /**
+         * Menyimpan progres baca terakhir ke Local Storage.
+         * @param {string} pageId - ID halaman yang akan disimpan.
+         */
+        function saveProgress(pageId) {
+            try {
+                localStorage.setItem('ebookAmbisiTerbakarProgress', pageId);
+            } catch (e) {
+                console.warn("Local Storage tidak tersedia, progres tidak akan disimpan.");
+            }
+        }
+
+        /**
+         * Memuat progres baca terakhir dari Local Storage.
+         */
+        function loadProgress() {
+            try {
+                const savedPageId = localStorage.getItem('ebookAmbisiTerbakarProgress');
+                if (savedPageId) {
+                     changePage(savedPageId);
+                } else {
+                    changePage('cover');
+                }
+            } catch (e) {
+                console.warn("Gagal memuat progres dari Local Storage.");
+                changePage('cover');
+            }
+        }
+
+        // --- Event Listeners ---
+        navButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                // Mengganti onclick dengan data-target
+                const targetId = e.currentTarget.getAttribute('data-target');
+                if (targetId) changePage(targetId);
+            });
+        });
+
+        tocItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                // Mengganti onclick dengan data-target
+                const targetId = e.currentTarget.getAttribute('data-target');
+                if (targetId) changePage(targetId);
+            });
+        });
+        
+        tocBtn.addEventListener('click', () => changePage('toc'));
+
+        // --- Inisialisasi Aplikasi ---
+        loadProgress();
+    });
+    </script>
+</body>
+
+</html>
